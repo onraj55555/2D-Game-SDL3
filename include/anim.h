@@ -18,4 +18,24 @@ void animation_line_draw(animation_line_t * self);
 int animation_line_is_done(animation_line_t * self);
 void animation_line_reset(animation_line_t * self);
 
+typedef struct generic_animation_t generic_animation_t;
+
+struct generic_animation_t {
+    uint64_t current_step; // current state of the animation
+    uint64_t steps; // amount of steps the animation takes
+    uint64_t duration; // time (ms) that the animation takes
+    uint64_t time_step; // time (ms) between updates
+    uint64_t last_update_time; // last time animation actually updates, used to determine if it should be updated or not
+    void * generic_data;
+    void (*draw)(generic_animation_t * self);
+    void (*advance)(generic_animation_t * self);
+};
+
+void generic_animation_init(generic_animation_t * self, uint64_t steps, uint64_t duration, void * generic_data, void (*draw)(generic_animation_t * self), void (*advance)(generic_animation_t * self));
+void generic_animation_start(generic_animation_t * self);
+int generic_animation_is_done(generic_animation_t * self);
+void generic_animation_advance(generic_animation_t * self);
+void generic_animation_draw(generic_animation_t * self);
+void generic_animation_draw_and_advance(generic_animation_t * self);
+
 #endif

@@ -13,7 +13,19 @@ void build() {
     command_deinit(cmd);
 }
 
+void run() {
+    command_t * cmd = command_init("/home/onraj/Documents/Projects/2D-Game-SDL3/build/main");
+    command_execute(cmd);
+    command_deinit(cmd);
+}
+
 int main(int argc, char ** argv) {
     cb_rebuild_on_change(__FILE__, argv);
+    parse_arguments(argc, argv);
     build();
+    char * r = argv[1];
+    if(strcmp(r, "run") == 0) {
+        run();
+    }
+    return 0;
 }
